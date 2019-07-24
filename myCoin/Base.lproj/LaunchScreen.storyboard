@@ -1,7 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,15 +15,47 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dy2-zl-bDm">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" red="0.99593478441238403" green="0.99125510454177856" blue="0.89640331268310547" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchHead" translatesAutoresizingMaskIntoConstraints="NO" id="V2z-f9-3FW">
+                                <rect key="frame" x="136" y="252" width="103" height="102"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="103" id="7jN-xE-OYP"/>
+                                    <constraint firstAttribute="height" constant="102" id="FV7-di-Hfh"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Any Penny Has Power" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFd-aL-ZLo">
+                                <rect key="frame" x="117.33333333333333" y="390" width="140.33333333333337" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dy2-zl-bDm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="FvJ-MO-8Av"/>
+                            <constraint firstItem="dy2-zl-bDm" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="34" id="M9A-8E-kDa"/>
+                            <constraint firstItem="XFd-aL-ZLo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="RXh-1c-Fb2"/>
+                            <constraint firstItem="V2z-f9-3FW" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UDu-G5-2NG"/>
+                            <constraint firstItem="dy2-zl-bDm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dw3-27-tdp"/>
+                            <constraint firstItem="V2z-f9-3FW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="208" id="kxb-Xg-IYU"/>
+                            <constraint firstItem="dy2-zl-bDm" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="usB-KZ-zfC"/>
+                            <constraint firstItem="XFd-aL-ZLo" firstAttribute="top" secondItem="V2z-f9-3FW" secondAttribute="bottom" constant="36" id="vEn-s0-j7a"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="50.399999999999999" y="373.89162561576359"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchHead" width="103" height="102"/>
+    </resources>
 </document>
