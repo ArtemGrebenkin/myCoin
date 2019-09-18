@@ -12,17 +12,10 @@ struct RecordCoinCell {
     
     var datePickUp: NSDate?
     var uid: String?
-    var latitude: Double
-    var longitude: Double
+    var latitude: Double?
+    var longitude: Double?
     var locationDescription: String?
     var coin: Coin?
+
     
-    init() {
-        datePickUp = nil
-        uid = nil
-        latitude = 0
-        longitude = 0
-        locationDescription = nil
-        coin = nil
-    }
 }

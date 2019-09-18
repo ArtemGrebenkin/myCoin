@@ -16,7 +16,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var swMetal: UISwitch!
     @IBOutlet weak var swPaper: UISwitch!
     
-    let setting = Settings()
+    //let setting = Settings()
     //var arraySetting: [Coin] = []
     //var selectedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     var selectedIndexPath: IndexPath?
@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController {
             //for (i,item) in arraySetting.enumerated() {
             for (i,item) in arrayCurrency.enumerated() {
                 //if item.currency.rawValue == srtCurrency {
-                if item.curName == srtCurrency {
+                if item.currencyISO == srtCurrency {
                     
                     selectedIndexPath = IndexPath(row: i, section: 0)
                 }
@@ -192,7 +192,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         backgroundView.backgroundColor = UIColor(red: 254, green: 239, blue: 0, alpha: 0)
         cell.selectedBackgroundView = backgroundView
         
-        cell.textLabel?.text = arrayCurrency[indexPath.row].curName + " " + arrayCurrency[indexPath.row].generalyName
+        cell.textLabel?.text = arrayCurrency[indexPath.row].currencyISO + " " + arrayCurrency[indexPath.row].currencyName
         
         cell.textLabel?.font = UIFont(name: "Courier New" , size: 25.0)
         cell.textLabel?.textAlignment = NSTextAlignment.center
@@ -228,15 +228,15 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         //the selected cell is saving
         selectedIndexPath = indexPath
         
-        UserDefaults.standard.set(arrayCurrency[indexPath.row].curName, forKey: "Currency")
-        UserDefaults.standard.set(arrayCurrency[indexPath.row].curSymbol, forKey: "CurSymbol")
+        UserDefaults.standard.set(arrayCurrency[indexPath.row].currencyISO, forKey: "Currency")
+        UserDefaults.standard.set(arrayCurrency[indexPath.row].currencySymbol, forKey: "CurSymbol")
         
         UserDefaults.standard.set(swMetal.isOn, forKey: "Metal")
         UserDefaults.standard.set(swPaper.isOn, forKey: "Paper")
         UserDefaults.standard.synchronize()
 
 
-        self.setting.generateMoney(cur: self.arrayCurrency[indexPath.row])//start async after that reload data
+        Settings.generateMoney(cur: self.arrayCurrency[indexPath.row])//start async after that reload data
         
 
         let delayInSeconds = 0.5

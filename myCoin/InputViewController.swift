@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 
 class InputViewController: UIViewController  {
@@ -19,16 +19,22 @@ class InputViewController: UIViewController  {
     
     let picker = UIPickerView()
     let datePicker = UIDatePicker()
-    var uid: String? //уид записи переданной сюда на редактирование
+    var uid: String? //уид записи переданной сюда на редактирование(добавление)
+    var realmCoinRecord: CoinRecord? //текущая запись найденная по уид с главного вью она будет сохранена(обновлена) в БД
     //var editRecordCoin: RecordCoinCell? //переданные на редактирование данные ячейки из таблицы
     //var editRecordCoin: CoinsData? //переданные на редактирование данные ячейки из таблицы
-    var coinRecord = RecordCoinCell()//модель данных
+    //var coinRecord = CoinRecord()//модель данных
     let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        if let uid = uid {
+            self.realmCoinRecord = realm.objects(CoinRecord.self).filter("uid == %@", uid).first
+        }
+        
         
         fieldCoin.placeholder = "Монета"
         fieldDate.placeholder = "Дата"
@@ -77,21 +83,22 @@ class InputViewController: UIViewController  {
         //var txtDescription: String?
         //var pickerIndex = 0
         //var pickerDate = Date()
+
+        mapButton.isEnabled = true
+
         
-        //if uid != nil {
-        let coreData = CoreDataOperations()
-        //let coinsData = coreData.fetchData(uid: uid)
-        let coinsData = coreData.fetchFromCoreData(uid: uid)
-        ////mapButton.isEnabled = true
-            
-        //fieldCoin.text = cutNameBrackets(name: editRec.name)
-        if let cd = coinsData?.first { //если мы что-то нашли значит и уид имеется и это существующая запись
-            fieldCoin.text = cd.name                   // имя монеты
-            textCoordinateLabel.text = cd.locationDescription // описание координат
-            if let date = cd.datePickUp as Date? {
+        if let rec = realmCoinRecord { //если мы что-то нашли значит и уид имеется и это существующая запись
+            fieldCoin.text = rec.coin?.fullName                  // имя монеты
+            textCoordinateLabel.text = rec.locationDescription // описание координат
+            if let date = rec.datePickUp as Date? {
                 fieldDate.text = extDateToString(date: date)
+                datePicker.setDate(date, animated: true)
             }
-            
+            picker.selectRow(rec.coin?.orderInArray ?? 0, inComponent: 0, animated: true) //find the need coin in the picker by index of stored property in the db
+        }
+        
+   
+           /*
             //перебераем массив монет пока не найдем монету-экземпляр по ее имени из CoreData (умнее я ни чего не придумал)
             for (index,element) in arrayCoins.enumerated() {
                 if element.name == cd.name {
@@ -100,57 +107,24 @@ class InputViewController: UIViewController  {
                     break
                 }
             }
-            
-            
-            //заполняем остальные атрибуты модели данных
-            coinRecord.latitude = cd.latitude
-            coinRecord.longitude = cd.longitude
-            coinRecord.datePickUp = cd.datePickUp
-            coinRecord.locationDescription = cd.locationDescription
-            coinRecord.uid = uid
-        }
-        //}
-        //fieldCoin.text = txtCoinName
-        //fieldDate.text = txtDateName
-        //textCoordinateLabel.text = txtDescription
-        //picker.selectRow(pickerIndex, inComponent: 0, animated: true)
-        //datePicker.setDate(pickerDate, animated: true)
-        
+        */
     }
-    /*
-    //при добавлении новой монеты если поля пустые запоним их текущей датой и самой младшей монетой
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        self.navigationItem.rightBarButtonItem = doneButton //установим кнопку Done
-        
-        if editRecordCoin == nil { //если нет редактируемой монеты значит мы добавляем новую
-            if fieldCoin.isEditing && fieldCoin.text!.isEmpty {
-                //fieldCoin.text = cutNameBrackets(name: arrayCoins[0].name)
-                fieldCoin.text = arrayCoins[0].name
-                selectedCoin = arrayCoins[0]
-                mapButton.isEnabled = true
-            }
-            if fieldDate.isEditing && fieldDate.text!.isEmpty  {
-                fieldDate.text = extDateToString(date: (Date()))
-                selectedDate = datePicker.date
+    
+    
+    
+    func saveRecord(_ dict: Dictionary<String, Any>) {
+        if self.realmCoinRecord != nil {
+            try! realm.write {
+                realm.create(CoinRecord.self, value: dict, update: .modified)
             }
         }
     }
-    */
-    
-    
+
+
     
     @objc func dateChanged(datePicker: UIDatePicker)  {
         fieldDate.text = extDateToString(date: datePicker.date)
-        ////editRecordCoin?.datePickUp = datePicker.date as NSDate
-        coinRecord.datePickUp = datePicker.date as NSDate
-       /*
-        if let editRec = editRecordCoin { //редактируем запись
-            editRec.datePickUp = datePicker.date //запоминаем новое выбранное значение
-        } else { //новая запись
-             //selectedDate = datePicker.date //для создания новой записи
-        }
-    */
+        self.saveRecord(["uid" : self.uid!, "datePickUp" : datePicker.date as NSDate])
     }
     
    //тап мимо клавиатуры должен завершить ввод
@@ -160,11 +134,10 @@ class InputViewController: UIViewController  {
     
     @objc func donePressed() {
         view.endEditing(true)
-        //addCoinToCoreData()
+
         guard fieldDate.text != nil else { return }
         guard fieldCoin.text != nil else { return }
-        
-        saveCoinToCoreData()
+
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -203,12 +176,6 @@ class InputViewController: UIViewController  {
         }
     }
    */
-
-    func saveCoinToCoreData() {
-        guard coinRecord.coin != nil else {return}
-        let coreData = CoreDataOperations()
-        coreData.saveToCoreData(&coinRecord)
-    }
     
     @IBAction func toMapButton(_ sender: Any) {
         //let newViewController = DetailViewController()
@@ -220,36 +187,15 @@ class InputViewController: UIViewController  {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
         if segue.identifier == "addManualPin" {
-            let destinationController = segue.destination as! DetailViewController
-            //if editRecordCoin == nil { //если правим существующую запись
-            //    self.createNewRecord()
-            //}
-            //destinationController.selectedCoin = coinRecord.coin
-            //destinationController.uuid = uid
-            //destinationController.selectedDate = selectedDate
-            //destinationController.selectedDate = datePicker.date
-            destinationController.coinRecord = coinRecord
+            let destinationController = segue.destination as! MapViewController
+            //destinationController.realmCoinRecord = coinRecord
             destinationController.manualPinAllowed = true
-            destinationController.editLattitude = coinRecord.latitude
-            destinationController.editLongitude = coinRecord.longitude
+            //destinationController.editLattitude = coinRecord.latitude
+            //destinationController.editLongitude = coinRecord.longitude
         }
     }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
+
 
 extension InputViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -264,17 +210,14 @@ extension InputViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        //return cutNameBrackets(name: arrayCoins[row].name)
-        return arrayCoins[row].name
-        
+        return arrayCoins[row].fullName
     }
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        //fieldCoin.text = cutNameBrackets(name: arrayCoins[row].name)
-        fieldCoin.text = arrayCoins[row].name
-        
+
+        fieldCoin.text = arrayCoins[row].fullName
+        self.saveRecord(["uid" : self.uid!, "coin" : arrayCoins[row]])
         ////if let editRec = editRecordCoin { //редактируем запись
             ////editRec.name        = arrayCoins[row].name //запоминаем новое выбранное значение
             ////editRec.currency    = arrayCoins[row].currency.rawValue
@@ -282,7 +225,7 @@ extension InputViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             ////editRec.generalySign = arrayCoins[row].generalySign
             ////editRec.metal       = arrayCoins[row].metal
             
-            coinRecord.coin = arrayCoins[row]
+            //coinRecord.coin = arrayCoins[row]
             
         ////} else { //новая запись
         ////    selectedCoin = arrayCoins[row] //используем глобальный массив с флагами добавленная монета и т д думаю ничего страшного в этом нет
@@ -302,14 +245,14 @@ extension InputViewController: UITextFieldDelegate {
             if fieldCoin.isEditing && fieldCoin.text!.isEmpty {
                 //fieldCoin.text = cutNameBrackets(name: arrayCoins[0].name)
                 if let coin = arrayCoins.first {
-                    fieldCoin.text = coin.name
+                    fieldCoin.text = coin.fullName
                 ////selectedCoin = arrayCoins[0]
-                    coinRecord.coin = coin
+                    //coinRecord.coin = coin
                     mapButton.isEnabled = true
                 }
             }
             if fieldDate.isEditing && fieldDate.text!.isEmpty  {
-                coinRecord.datePickUp = datePicker.date as NSDate
+                //coinRecord.datePickUp = datePicker.date as NSDate
                 fieldDate.text = extDateToString(date: (Date()))
                 //selectedDate = datePicker.date
             }

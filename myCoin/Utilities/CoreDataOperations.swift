@@ -10,7 +10,7 @@ import CoreData
 import UIKit
 
 class CoreDataOperations: NSObject {
-    
+ /*
     // MARK: Save data
     //func saveData(name:String, currency:String, datePickUp:Date, latitude:Double, longitude:Double, rating:Int16) -> Void {
     //func saveData(coin:Coin, datePickUp:Date, latitude:Double?, longitude:Double?) -> Void {
@@ -33,8 +33,8 @@ class CoreDataOperations: NSObject {
         entityData.name = someData.coin?.name
         entityData.currency = someData.coin?.currency.curName
         entityData.datePickUp = someData.datePickUp
-        entityData.latitude = someData.latitude
-        entityData.longitude = someData.longitude
+        entityData.latitude = someData.latitude!
+        entityData.longitude = someData.longitude!
         entityData.rating = someData.coin!.rating
         entityData.generalySign = someData.coin!.generalySign
         entityData.metal = someData.coin!.metal
@@ -269,6 +269,7 @@ class CoreDataOperations: NSObject {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.persistentContainer.viewContext
     }
+ */
 }
 
 

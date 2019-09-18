@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41C964C3554401C5656582D5 /* Pods_myCoin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C8058B6E1BA284A464DF65 /* Pods_myCoin.framework */; };
 		EE0F259C20B2BA1D00E26464 /* TestLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = EE0F259A20B2BA1D00E26464 /* TestLocations.gpx */; };
 		EE10DC1E208F024D0020D706 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10DC1D208F024D0020D706 /* Utilities.swift */; };
 		EE440F1E2085FCF100930991 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE440F1D2085FCF100930991 /* DataViewController.swift */; };
 		EE440F202085FF2200930991 /* DataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE440F1F2085FF2200930991 /* DataTableViewCell.swift */; };
 		EE5E7840207BDD3B00AF8E64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5E783F207BDD3B00AF8E64 /* CoreLocation.framework */; };
-		EE5E7842207BDFFF00AF8E64 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5E7841207BDFFF00AF8E64 /* DetailViewController.swift */; };
+		EE5E7842207BDFFF00AF8E64 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5E7841207BDFFF00AF8E64 /* MapViewController.swift */; };
 		EE7FA85B22B29B6400F57867 /* PresentationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7FA85A22B29B6400F57867 /* PresentationViewController.swift */; };
 		EE7FA85D22B29BBB00F57867 /* PresentationPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7FA85C22B29BBB00F57867 /* PresentationPageViewController.swift */; };
 		EEBE8BCA20C9832F0042A3A0 /* RecordCoinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBE8BC920C9832F0042A3A0 /* RecordCoinCell.swift */; };
@@ -34,17 +35,22 @@
 		EEDB7CBB20D6355D003B7971 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB7CBA20D6355D003B7971 /* SettingsViewController.swift */; };
 		EEDB7CBD20D68ACD003B7971 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB7CBC20D68ACD003B7971 /* Currency.swift */; };
 		EEF121AF20C41565001203B4 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF121AE20C41565001203B4 /* InputViewController.swift */; };
+		EEFC7F1123044AEC009667D7 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFC7F1023044AEC009667D7 /* StorageManager.swift */; };
 		EEFD1E7122C66D3400C7FDDC /* CoinsData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFFA5F222B7E2A100E9531F /* CoinsData+CoreDataClass.swift */; };
 		EEFD1E7222C66D3E00C7FDDC /* CoinsData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFFA5F322B7E2A100E9531F /* CoinsData+CoreDataProperties.swift */; };
+		EEFDC90222E9F9F1001190DF /* CoinRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDC90122E9F9F1001190DF /* CoinRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E43741A537A7915B02C6864 /* Pods-myCoin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCoin.debug.xcconfig"; path = "Target Support Files/Pods-myCoin/Pods-myCoin.debug.xcconfig"; sourceTree = "<group>"; };
+		79C8058B6E1BA284A464DF65 /* Pods_myCoin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_myCoin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B8CCC6977C92F4BDCF4156A /* Pods-myCoin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-myCoin.release.xcconfig"; path = "Target Support Files/Pods-myCoin/Pods-myCoin.release.xcconfig"; sourceTree = "<group>"; };
 		EE0F259A20B2BA1D00E26464 /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TestLocations.gpx; sourceTree = "<group>"; };
 		EE10DC1D208F024D0020D706 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		EE440F1D2085FCF100930991 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
 		EE440F1F2085FF2200930991 /* DataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTableViewCell.swift; sourceTree = "<group>"; };
 		EE5E783F207BDD3B00AF8E64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		EE5E7841207BDFFF00AF8E64 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		EE5E7841207BDFFF00AF8E64 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EE7FA85A22B29B6400F57867 /* PresentationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationViewController.swift; sourceTree = "<group>"; };
 		EE7FA85C22B29BBB00F57867 /* PresentationPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationPageViewController.swift; sourceTree = "<group>"; };
 		EEBE8BC920C9832F0042A3A0 /* RecordCoinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCoinCell.swift; sourceTree = "<group>"; };
@@ -68,6 +74,8 @@
 		EEDB7CBA20D6355D003B7971 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EEDB7CBC20D68ACD003B7971 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		EEF121AE20C41565001203B4 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		EEFC7F1023044AEC009667D7 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		EEFDC90122E9F9F1001190DF /* CoinRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinRecord.swift; sourceTree = "<group>"; };
 		EEFFA5F222B7E2A100E9531F /* CoinsData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoinsData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		EEFFA5F322B7E2A100E9531F /* CoinsData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoinsData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,6 +87,7 @@
 			files = (
 				EEC563DB207C688F00CF8D32 /* MapKit.framework in Frameworks */,
 				EE5E7840207BDD3B00AF8E64 /* CoreLocation.framework in Frameworks */,
+				41C964C3554401C5656582D5 /* Pods_myCoin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +115,7 @@
 			children = (
 				EEC563DA207C688F00CF8D32 /* MapKit.framework */,
 				EE5E783F207BDD3B00AF8E64 /* CoreLocation.framework */,
+				79C8058B6E1BA284A464DF65 /* Pods_myCoin.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,6 +128,7 @@
 				EEBF8713207911F400408047 /* myCoin */,
 				EEBF8712207911F400408047 /* Products */,
 				EE5E783E207BDD3B00AF8E64 /* Frameworks */,
+				F5803765226609F75D49315D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,11 +148,12 @@
 				EEC59CDA2092E26F00539F6F /* Coin.swift */,
 				EEDB7CBC20D68ACD003B7971 /* Currency.swift */,
 				EEBE8BC920C9832F0042A3A0 /* RecordCoinCell.swift */,
+				EEFDC90122E9F9F1001190DF /* CoinRecord.swift */,
 				EEC563DC207C699F00CF8D32 /* PinAnnatation.swift */,
 				EEBF8716207911F400408047 /* ViewController.swift */,
 				EEBF87292079152C00408047 /* CoinCellTableViewCell.swift */,
+				EE5E7841207BDFFF00AF8E64 /* MapViewController.swift */,
 				EE440F1D2085FCF100930991 /* DataViewController.swift */,
-				EE5E7841207BDFFF00AF8E64 /* DetailViewController.swift */,
 				EE440F1F2085FF2200930991 /* DataTableViewCell.swift */,
 				EEF121AE20C41565001203B4 /* InputViewController.swift */,
 				EEDB7CBA20D6355D003B7971 /* SettingsViewController.swift */,
@@ -161,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				EEC59CD82092E18600539F6F /* CoreDataOperations.swift */,
+				EEFC7F1023044AEC009667D7 /* StorageManager.swift */,
 				EE10DC1D208F024D0020D706 /* Utilities.swift */,
 				EECDD89120DE6F66005E2428 /* Settings.swift */,
 				EECDD89520DEB955005E2428 /* Animates.swift */,
@@ -170,6 +183,15 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		F5803765226609F75D49315D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3E43741A537A7915B02C6864 /* Pods-myCoin.debug.xcconfig */,
+				9B8CCC6977C92F4BDCF4156A /* Pods-myCoin.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -177,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EEBF8726207911F400408047 /* Build configuration list for PBXNativeTarget "myCoin" */;
 			buildPhases = (
+				015F92867B2A10F5513FB988 /* [CP] Check Pods Manifest.lock */,
 				EEBF870D207911F400408047 /* Sources */,
 				EEBF870E207911F400408047 /* Frameworks */,
 				EEBF870F207911F400408047 /* Resources */,
+				A76503DD5331255E8A227610 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,6 +268,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		015F92867B2A10F5513FB988 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-myCoin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A76503DD5331255E8A227610 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-myCoin/Pods-myCoin-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-myCoin/Pods-myCoin-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EEBF870D207911F400408047 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -251,7 +320,9 @@
 			files = (
 				EEFD1E7222C66D3E00C7FDDC /* CoinsData+CoreDataProperties.swift in Sources */,
 				EEFD1E7122C66D3400C7FDDC /* CoinsData+CoreDataClass.swift in Sources */,
+				EEFC7F1123044AEC009667D7 /* StorageManager.swift in Sources */,
 				EE7FA85B22B29B6400F57867 /* PresentationViewController.swift in Sources */,
+				EEFDC90222E9F9F1001190DF /* CoinRecord.swift in Sources */,
 				EEBF871D207911F400408047 /* myCoin.xcdatamodeld in Sources */,
 				EEF121AF20C41565001203B4 /* InputViewController.swift in Sources */,
 				EE440F1E2085FCF100930991 /* DataViewController.swift in Sources */,
@@ -259,7 +330,7 @@
 				EEC563DD207C699F00CF8D32 /* PinAnnatation.swift in Sources */,
 				EEBE8BCA20C9832F0042A3A0 /* RecordCoinCell.swift in Sources */,
 				EEC59CD92092E18600539F6F /* CoreDataOperations.swift in Sources */,
-				EE5E7842207BDFFF00AF8E64 /* DetailViewController.swift in Sources */,
+				EE5E7842207BDFFF00AF8E64 /* MapViewController.swift in Sources */,
 				EEDB7CBB20D6355D003B7971 /* SettingsViewController.swift in Sources */,
 				EEBF872A2079152C00408047 /* CoinCellTableViewCell.swift in Sources */,
 				EECDD89220DE6F66005E2428 /* Settings.swift in Sources */,
@@ -410,6 +481,7 @@
 		};
 		EEBF8727207911F400408047 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E43741A537A7915B02C6864 /* Pods-myCoin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -426,6 +498,7 @@
 		};
 		EEBF8728207911F400408047 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B8CCC6977C92F4BDCF4156A /* Pods-myCoin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

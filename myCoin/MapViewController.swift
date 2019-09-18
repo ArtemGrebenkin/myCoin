@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import Foundation
-
+import RealmSwift
 
 
 class MapViewController: UIViewController {
@@ -21,13 +21,11 @@ class MapViewController: UIViewController {
     @IBOutlet weak var sumOfCoinsLabel: UILabel!
     @IBOutlet weak var lab: UILabel!
     
-    let coreData = CoreDataOperations()
-    //var coreDataResult:[CoinsData]? = nil //результат выборки из CoreData
-    var coreDataResult:[CoinsData]? //результат выборки из CoreData
-    var coinRecord: CoinRecord?
-    var sumOfSubMoney: Int = 0
-    var sumOfMoney: Int = 0
-    var sumOfCoins: Int = 0
+    var realmCoinRecord: CoinRecord? //текущая запись найденная по уид с главного вью она будет сохранена(обновлена) в БД
+    var currentUid: String?
+    var sumOfSubMoney = 0
+    var sumOfMoney = 0
+    var sumOfCoins = 0
     var curFromSet: Currency?
     var curSymbol = ""
     var regionIsOut = true
@@ -35,14 +33,9 @@ class MapViewController: UIViewController {
     //переменные для редактироания сущ. записи
     var editLattitude: Double?
     var editLongitude: Double?
-
     var manualPinAllowed = false
-    var oldManualPin: PinAnnatation? = nil
-    ////////временно////
-    var n: Int = 0
-    var text = ""
-    //////////////////
-
+ 
+    var arrayRecords: Results<CoinRecord>!
 
     let myLocationManager = CLLocationManager() //создаем наш экземпляр менеджера локаций он может создаваться на основном потоке но тогда и работать с ним надо на основном потоке
 
@@ -69,21 +62,17 @@ class MapViewController: UIViewController {
     }
     
     
-    
-    //func createPointOnTheMap(lat: Double, lon: Double, datePickUp: Date)  {
     func createPointOnTheMap()  {
-        //обновляем запись в CoreData
-        //if let coin = selectedCoin {
-        if let coin = coinRecord?.coin{
-            if let lat = coinRecord?.latitude, let lon = coinRecord?.longitude {
+        //обновляем запись в БД
+        if let coin = realmCoinRecord?.coin{
+            if let lat = realmCoinRecord?.latitude, let lon = realmCoinRecord?.longitude {
                 let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lon)
                 //создаем пин
                 let newPin = PinAnnatation(title: coin.fullName, subtitle: "", coordinate: myLocation)
                 let pointOnTheView = map.convert(myLocation, toPointTo: self.view)
                 animateCoin(coordinateX: pointOnTheView.x, coordinateY: pointOnTheView.y)
                 map.addAnnotation(newPin)
-                //временно выключим coinData = RecordCoinCell(uid: uuid, datePickUp: datePickUp, coin: coin, lat: lat, lon: lon) //создаем объект запись
-                addLocationDescription(lat: lat, lon: lon) //расшифруем локацию и добавим объект запись в CoreData
+                addLocationDescription(lat, lon) //расшифруем локацию и добавим объект запись в CoreData
                 myLocationManager.stopUpdatingLocation() //остановим менеджер
                 myLocationManager.delegate = nil //уничтожим для верности делегата
             }
@@ -91,7 +80,7 @@ class MapViewController: UIViewController {
     }
     
     
-    func addLocationDescription(lat: Double, lon: Double) {
+    func addLocationDescription(_ lat: Double, _ lon: Double) {
         var loc: CLLocation?
         loc = CLLocation(latitude: lat, longitude: lon)
         //print(lat, lon)
@@ -100,33 +89,6 @@ class MapViewController: UIViewController {
             if error != nil {
                 addressString = "ошибка получения данных имени локации"
             } else {
-                
-       /*
-                    print(place.addressDictionary)
-                    switch place {
-                        case let plc0 where place.thoroughfare != nil:           namesOfLocations[plc0.thoroughfare!] = 0
-                        case let plc1 where place.subThoroughfare != nil:        namesOfLocations[plc1.subThoroughfare!] = 1
-                        case let plc2 where place.locality != nil:               namesOfLocations[plc2.locality!] = 2
-                        case let plc3 where place.name != nil:                   namesOfLocations[plc3.name!] = 3
-                        case let plc4 where place.subLocality != nil:            namesOfLocations[plc4.subLocality!] = 4
-                        case let plc5 where place.administrativeArea != nil:     namesOfLocations[plc5.administrativeArea!] = 5
-                        case let plc6 where place.subAdministrativeArea != nil:  namesOfLocations[plc6.subAdministrativeArea!] = 6
-                        
-                        default:
-                        namesOfLocations["не найдено названий локации"] = 0
-                    }
-                    //упорядочим через массив
-                    for (name, order) in namesOfLocations {
-                        arrayLocations[order] = name
-                    }
-                    //соберем в строку
-                    var fullNameLocation = ""
-                    for item in arrayLocations {
-                        fullNameLocation += item
-                        fullNameLocation += " "
-                    }
-                    self.coinData!.locationDescription = fullNameLocation
-            */
                 let pm = placemark! as [CLPlacemark]
                 
                 if pm.count > 0 {
@@ -134,33 +96,25 @@ class MapViewController: UIViewController {
                     if pm.name != nil {
                         addressString = pm.name!
                     }
-                    //print(addressString)
-                    //self.coinData?.locationDescription = addressString
-                    self.coinRecord?.locationDescription = addressString
-                    ////self.coreData.updateRecords(editedRec: self.coinData!) //обновим запись
-                    
-                    if var rec = self.coinRecord {
-                        let coreData = CoreDataOperations()
-                        /////////////////////////coreData.saveToCoreData(&rec)
-                         //здесь нужно делать апдейт существующей записи если она была записана ранее в первом контроллере
-                    }
+                    self.saveRecord(["uid" : self.currentUid!, "locationDescription": addressString])
                 }
             }
-
         }
+    }
+    
+    
+    func saveRecord(_ dict: Dictionary<String, Any>) {
+        if realmCoinRecord != nil {
+            //DispatchQueue.main.async { т.к. не ставится точка на карте
+                try! realm.write {
+                        realm.create(CoinRecord.self, value: dict, update: .modified)
+                }
+            //}
+        }
+    }
+    
 
-        
-    }
-    
-    
-   /*
-    //обработаем ошибку получения координат
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        lab.isHidden = false
-        lab.text = "Служба геолокации не включена."
-    }
-   */
-    
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -223,7 +177,8 @@ class MapViewController: UIViewController {
         }
         //выведем суммарные кол-ва денег и монет
         totalScoreLabel.text = curSymbol + String(sumOfMoney)
-        titleLabel.text = (sumOfSubMoney < 10 ? "0" + String(sumOfSubMoney) : String(sumOfSubMoney))
+        let strSumOfSubMoney = String(sumOfSubMoney)
+        titleLabel.text = (sumOfSubMoney > 10 ? strSumOfSubMoney : "0" + strSumOfSubMoney)
 
     }
 
@@ -231,7 +186,7 @@ class MapViewController: UIViewController {
     
     func animateCauntingLables() {
         //if let coin = selectedCoin {  //запускаем счетчик денег
-        if let coin = coinRecord?.coin {  //запускаем счетчик денег
+        if let coin = realmCoinRecord?.coin {  //запускаем счетчик денег
             if !coin.subUnit { //если основные ден.единицы
                 let startMoney: Int = (sumOfMoney >= coin.rating ? sumOfMoney - coin.rating : 0) //чтобы не уйти в меньше 0
                 totalScoreLabel.count(fromValue: startMoney, to: sumOfMoney, withDuration: 1, addStr: curSymbol)
@@ -253,6 +208,12 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        arrayRecords = realm.objects(CoinRecord.self)
+        if let uid = currentUid {
+            //print(" текущий \(uid)")
+            self.realmCoinRecord = realm.objects(CoinRecord.self).filter("uid == %@", uid).first
+        }
         myLocationManager.delegate = self //указываем себя как делегата созданного экземпляра менеджера локаций
         myLocationManager.requestWhenInUseAuthorization() //разрешение на получение геолокации на устройстве
         myLocationManager.distanceFilter = 10 //мин расстояние на которое нужно переместиться чтобы было создано событие обновления (в метрах)
@@ -280,18 +241,21 @@ class MapViewController: UIViewController {
     func loadPinsFromCoreData() {
         //coreDataResult = coreData.fetchData(uid: nil)
         ///////////////////////////////////////////////////coreDataResult = coreData.fetchFromCoreData(uid: nil)
+        
+        
         var coordinate:CLLocationCoordinate2D
         map.removeAnnotations(map.annotations) //удаляем показанные
         var arrayAnnatations: [MKAnnotation] = []
-        if let res = coreDataResult {
+        if let res = arrayRecords {
             sumOfMoney = 0
             sumOfSubMoney = 0
             sumOfCoins = 0
             for item in res {
-                if item.generalySign {
-                    sumOfMoney += Int(item.rating)
+                guard let coin = item.coin else {return}
+                if coin.subUnit == false {
+                    sumOfMoney += Int(coin.rating)
                 } else {
-                    sumOfSubMoney += Int(item.rating)
+                    sumOfSubMoney += Int(coin.rating)
                     if sumOfSubMoney >= 100 {
                         sumOfMoney += 1
                         sumOfSubMoney = sumOfSubMoney - 100
@@ -299,7 +263,7 @@ class MapViewController: UIViewController {
                 }
                 sumOfCoins += 1
                 coordinate = CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude)
-                let existingPin = PinAnnatation(title: item.name!, subtitle: "", coordinate: coordinate)
+                let existingPin = PinAnnatation(title: coin.fullName, subtitle: "", coordinate: coordinate)
                 arrayAnnatations.append(existingPin)
             }
             self.map.addAnnotations(arrayAnnatations)
@@ -320,11 +284,10 @@ class MapViewController: UIViewController {
                 }
                 let location = sender.location(in: self.map)
                 let manualLocation = self.map.convert(location, toCoordinateFrom: self.map)
-                coinRecord?.latitude = manualLocation.latitude
-                coinRecord?.longitude = manualLocation.longitude
-                //let datePickUp = coinRecord?.datePickUp //(selectedDate ?? Date())
-                //createPointOnTheMap(lat: manualLocation.latitude, lon: manualLocation.longitude, datePickUp: datePickUp)
-                createPointOnTheMap()
+                if let uid = currentUid { //вынести в отдельную функцию т к повтор
+                    saveRecord(["uid" : uid, "latitude" : manualLocation.latitude, "longitude" : manualLocation.longitude])
+                    createPointOnTheMap()
+                }
                 //сохраним коорднаты последней точки
                 editLattitude = manualLocation.latitude
                 editLongitude = manualLocation.longitude
@@ -364,7 +327,6 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        //let location = locations.last
         currentLocation = locations.first //одна метка на карте
         
         //self.map.showsUserLocation = true //покажем наше текущее положение на карте
@@ -382,12 +344,13 @@ extension MapViewController: CLLocationManagerDelegate {
             
             
             //if selectedCoin != nil && !manualPinAllowed {
-            if coinRecord?.coin != nil && !manualPinAllowed {
+            if !manualPinAllowed {
                 if isGoodAccurasy() {  //если спозиционировались точно, ставим пин
-                    //createPointOnTheMap(lat: loc.coordinate.latitude, lon: loc.coordinate.longitude, datePickUp: Date())
-                    coinRecord?.latitude = loc.coordinate.latitude
-                    coinRecord?.longitude = loc.coordinate.longitude
-                    createPointOnTheMap()
+                    if let uid = currentUid {
+                        saveRecord(["uid" : uid, "latitude" : loc.coordinate.latitude, "longitude" : loc.coordinate.longitude])
+                        //print("uid \(uid) loc \(loc.coordinate.latitude) : \(loc.coordinate.longitude)")
+                        createPointOnTheMap()
+                    }
                 }
             }
         }

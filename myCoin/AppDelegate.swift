@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MapKit
+import RealmSwift
 
 
 @UIApplicationMain
@@ -18,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //путь к локальной БД там далее Library\Application Support\
-        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        print(urls[urls.count-1] as URL)
-        let coreD = CoreDataOperations()
-        coreD.deleteRecords(uid: "")
+        //let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        //print(urls[urls.count-1] as URL)
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+
         return true
     }
 
