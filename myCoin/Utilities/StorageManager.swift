@@ -19,12 +19,19 @@ class StorageManager {
         }
     }
     
-    static func deleteObject(_ record: CoinRecord) {
-        if let childObject = record.coin {
-            try! realm.write {
-                realm.delete(childObject)
-            }
+    static func saveObjectCoin(_ record: Coin) {
+        try! realm.write {
+            realm.add(record, update: .modified)
         }
+    }
+    
+    static func deleteObject(_ record: CoinRecord) {
+        //отключим удаление дочерней записи т.к. она стала независимой записью (начальный массив монет)
+//        if let childObject = record.coin {
+//            try! realm.write {
+//                realm.delete(childObject)
+//            }
+//        }
         try! realm.write {
             realm.delete(record)
         }

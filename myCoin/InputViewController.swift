@@ -25,8 +25,8 @@ class InputViewController: UIViewController  {
     //var editRecordCoin: CoinsData? //переданные на редактирование данные ячейки из таблицы
     //var coinRecord = CoinRecord()//модель данных
     let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-    
-    
+    var arrayCoins: Results<Coin>!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +35,9 @@ class InputViewController: UIViewController  {
             self.realmCoinRecord = realm.objects(CoinRecord.self).filter("uid == %@", uid).first
         }
         
+        if let cur = UserDefaults.standard.string(forKey: "Currency") {
+            arrayCoins = realm.objects(Coin.self).filter("currISO == %@", cur)
+        }
         
         fieldCoin.placeholder = "Монета"
         fieldDate.placeholder = "Дата"

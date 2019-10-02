@@ -172,7 +172,7 @@ class MapViewController: UIViewController {
              //   let myEditLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(editLattitude!, editLongitude!)
              //   self.map.setCenter(myEditLocation, animated: true)
             //}
-        } else {
+        } else if currentUid != nil {
             animateCauntingLables() //запускаем анимацию счетчика денег и монет если зашли с "главного входа"
         }
         //выведем суммарные кол-ва денег и монет
@@ -182,6 +182,9 @@ class MapViewController: UIViewController {
 
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        currentUid = nil
+    }
     
     
     func animateCauntingLables() {
